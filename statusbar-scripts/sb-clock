@@ -1,0 +1,4 @@
+#!/bin/dash
+#SIGNAL1
+date +'%Y-%m-%d %k:%M:%S-%Z%:::z'
+
