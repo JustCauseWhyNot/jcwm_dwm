@@ -7,44 +7,39 @@ static const int swallowfloating    = 0;        /* 1 means swallow floating wind
 static const int swterminheritfs    = 1;        /* 1 terminal inherits fullscreen on unswallow, 0 otherwise */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "monospace:size=10" };
-static const char dmenufont[]       = "monospace:size=10";
-static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#005577";
+static const char *fonts[] = {
+		"sans-serif:size=16:hinting=true:antialias=true:autohint=false:hintstyle=hintnone:rgba=rgb:lcdfilter=lcdefault:fontformat=TrueType",
+		"OpenMoji:size=16:hinting=true:antialias=true:autohint=false:hintstyle=hintfull:rgba=rgb:lcdfilter=lcdefault:fontformat=TrueType"
+		"Material Design Icons Desktop:size=16:hinting=true:antialias=true:autohint=false:hintstyle=hintfull:rgba=rgb:lcdfilter=lcdefault:fontformat=TrueType"
+};
+static const char dmenufont[]       = "sans-serif:size=16:hinting=true:antialias=true:autohint=false:hintstyle=hintnone:rgba=rgb:lcdfilter=lcdefault:fontformat=TrueType";
+/* colors */
+static const char col_black[]       = "#000000";
+static const char col_red[]         = "#FF0000";
+static const char col_green[]       = "#00FF00";
+static const char col_yellow[]      = "#FFFF00";
+static const char col_white[]       = "#FFFFFF";
 static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
-	[SchemeStatus]={ col_cyan, col_gray1,  NULL  },
+    /*                      fg         bg        border   */
+    [SchemeNorm]    = { col_white,  col_black,  col_red   },
+    [SchemeSel]     = { col_white,  col_black,  col_green },
+    [SchemeStatus]  = { col_white,  col_black,  NULL  },
 };
 
 /* status bar */
 static const Block blocks[] = {
 	/* fg     command				interval	signal */
-	{ col_gray3, "sb-clock",			20,		1},
-	{ col_gray1, "sb-disk",				9000,		2},
-	{ col_gray2, "sb-battery",			10,		3},
-	{ col_gray3, "sb-internet",			10,		4},
-	{ col_cyan, "sb-mailbox",			0,		5},
-	{ "#000001", "sb-moonphase",			0,		6},
-	{ "#1F0077", "sb-forecast",			0,		7},
-	{ "#000077", "sb-volume",			0,		8},
-	{ "#F77000", "sb-pacpackages",			0,		9},
-	{ "#177000", "sb-sync",				0,		10},
-//	{ col_gray1, "sb-mpc",				0,		26},
-	{ col_gray2, "sb-music",			0,		11},
-//	{ col_gray3, "sb-tasks",			10,		12},
-	{ col_gray4, "sb-notes",			0,		13},
-	{ col_cyan, "echo '';cat /tmp/recordingicon",	0,		14},
+	{ col_white, "sb-clock",			1,		1},
+	{ col_white, "sb-volume",			1,		2},
+	{ col_white, "sb-memory",			1,		3},
+	{ col_white, "sb-cpu",		 		1,		4},
+/*	{ col_white, "sb-doppler",			0,		6},*/
 };
 
 /* inverse the order of the blocks, comment to disable */
 #define INVERSED	1
 /* delimeter between blocks commands. NULL character ('\0') means no delimeter. */
-static char delimiter[] = " ";
+static char delimiter[] = " | ";
 /* max number of character that one block command can output */
 #define CMDLENGTH	50
 /* tagging */
@@ -65,7 +60,7 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
+static const float mfact     = 0.50; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
@@ -78,7 +73,7 @@ static const Layout layouts[] = {
 };
 
 /* key definitions */
-#define MODKEY Mod1Mask
+#define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -90,12 +85,33 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_black, "-nf", col_white, "-sb", col_black, "-sf", col_green, NULL };
 static const char *termcmd[]  = { "st", NULL };
+static const char *prtscrcmd[] = { "flameshot", "gui", NULL};
+static const char *roficmd[] = { "/home/justcausewhynot/.config/rofi/scripts/launcher_t1" };
+static const char *play_pausecmd[] = { "playerctl", "play-pause", NULL };
+static const char *previouscmd[] = { "playerctl", "previous", NULL };
+static const char *nextcmd[] = { "playerctl", "next", NULL };
+static const char *ffcmd[] = { "playerctl", "position", "15+", NULL };
+static const char *rrcmd[] = { "playerctl", "position", "15-", NULL };
+static const char *shiftplayercmd[] = { "playerctld", "shift", NULL };
+static const char *unshiftplayercmd[] = { "playerctld", "unshift", NULL };
+static const char *sxcs[]= { "sxc", NULL };
 
+#include <X11/XF86keysym.h>
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_u,      spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_r,      spawn,          {.v = roficmd } },
+	{ MODKEY,                       XK_p,      spawn,          {.v = roficmd } },
+	{ 0,                            XK_Print,  spawn,          {.v = prtscrcmd } },
+	{ MODKEY|ShiftMask,             XK_e,      spawn,          {.v = shiftplayercmd } },
+	{ MODKEY|ShiftMask,             XK_w,      spawn,          {.v = unshiftplayercmd } },
+	{ MODKEY|ShiftMask,             XK_z,      spawn,          {.v = ffcmd } },
+	{ MODKEY|ShiftMask,             XK_x,      spawn,          {.v = rrcmd } },
+	{ 0,                     XF86XK_AudioPlay, spawn,          {.v = play_pausecmd } },
+	{ 0,                     XF86XK_AudioPrev, spawn,          {.v = previouscmd } },
+	{ 0,                     XF86XK_AudioNext, spawn,          {.v = nextcmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
@@ -110,11 +126,11 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_j,      pushdown,       {0} },
 	{ MODKEY|ShiftMask,             XK_k,      pushup,         {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                       XK_e,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
-	{ MODKEY,                       XK_f,      togglefullscreen, {0} },
+	{ MODKEY|Mod1Mask,              XK_f,      togglefullscreen, {0} },
 	{ MODKEY|ShiftMask,             XK_f,      togglefakefullscreen, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
