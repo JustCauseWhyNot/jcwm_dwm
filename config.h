@@ -88,17 +88,18 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_black, "-nf", col_white, "-sb", col_black, "-sf", col_green, NULL };
-static const char *termcmd[]  = { "st", NULL };
-static const char *prtscrcmd[] = { "flameshot", "gui", NULL};
-static const char *roficmd[] = { "/home/justcausewhynot/.config/rofi/scripts/launcher_t1" };
+static const char *ffcmd[] = { "playerctl", "position", "15+", NULL };
+static const char *nextcmd[] = { "playerctl", "next", NULL };
 static const char *play_pausecmd[] = { "playerctl", "play-pause", NULL };
 static const char *previouscmd[] = { "playerctl", "previous", NULL };
-static const char *nextcmd[] = { "playerctl", "next", NULL };
-static const char *ffcmd[] = { "playerctl", "position", "15+", NULL };
+static const char *prtscrcmd[] = { "flameshot", "gui", NULL};
+static const char *roficmd[] = { "/home/justcausewhynot/.config/rofi/scripts/launcher_t1" };
 static const char *rrcmd[] = { "playerctl", "position", "15-", NULL };
 static const char *shiftplayercmd[] = { "playerctld", "shift", NULL };
-static const char *unshiftplayercmd[] = { "playerctld", "unshift", NULL };
 static const char *sxcs[]= { "sxc", NULL };
+static const char *xkillcmd[]= { "xkill", NULL };
+static const char *termcmd[]  = { "st", NULL };
+static const char *unshiftplayercmd[] = { "playerctld", "unshift", NULL };
 
 #include <X11/XF86keysym.h>
 static const Key keys[] = {
@@ -139,6 +140,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ MODKEY|Mod1Mask,              XK_Escape, spawn,          {.v = xkillcmd } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
