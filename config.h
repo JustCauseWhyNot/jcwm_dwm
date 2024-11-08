@@ -3,16 +3,16 @@
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
-static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
-static const int swterminheritfs    = 1;        /* 1 terminal inherits fullscreen on unswallow, 0 otherwise */
+static const int swallowfloating    = 1;        /* 1 means swallow floating windows by default */
+static const int swterminheritfs    = 0;        /* 1 terminal inherits fullscreen on unswallow, 0 otherwise */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[] = {
-		"sans-serif:size=16:hinting=true:antialias=true:autohint=false:hintstyle=hintnone:rgba=rgb:lcdfilter=lcdefault:fontformat=TrueType",
-		"OpenMoji:size=16:hinting=true:antialias=true:autohint=false:hintstyle=hintfull:rgba=rgb:lcdfilter=lcdefault:fontformat=TrueType"
-		"Material Design Icons Desktop:size=16:hinting=true:antialias=true:autohint=false:hintstyle=hintfull:rgba=rgb:lcdfilter=lcdefault:fontformat=TrueType"
+		"sans-serif:size=18:hinting=true:antialias=true:autohint=false:hintstyle=hintnone:rgba=rgb:lcdfilter=lcdefault:fontformat=TrueType",
+		"OpenMoji:size=18:hinting=true:antialias=true:autohint=false:hintstyle=hintfull:rgba=rgb:lcdfilter=lcdefault:fontformat=TrueType"
+		"Material Design Icons Desktop:size=18:hinting=true:antialias=true:autohint=false:hintstyle=hintfull:rgba=rgb:lcdfilter=lcdefault:fontformat=TrueType"
 };
-static const char dmenufont[]       = "sans-serif:size=16:hinting=true:antialias=true:autohint=false:hintstyle=hintnone:rgba=rgb:lcdfilter=lcdefault:fontformat=TrueType";
+static const char dmenufont[]       = "sans-serif:size=18:hinting=true:antialias=true:autohint=false:hintstyle=hintnone:rgba=rgb:lcdfilter=lcdefault:fontformat=TrueType";
 /* colors */
 static const char col_black[]       = "#000000";
 static const char col_red[]         = "#FF0000";
