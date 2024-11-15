@@ -93,7 +93,6 @@ static const char *nextcmd[] = { "playerctl", "next", NULL };
 static const char *play_pausecmd[] = { "playerctl", "play-pause", NULL };
 static const char *previouscmd[] = { "playerctl", "previous", NULL };
 static const char *prtscrcmd[] = { "flameshot", "gui", NULL};
-static const char *roficmd[] = { "/home/justcausewhynot/.config/rofi/scripts/launcher_t1" };
 static const char *rrcmd[] = { "playerctl", "position", "15-", NULL };
 static const char *shiftplayercmd[] = { "playerctld", "shift", NULL };
 static const char *sxcs[]= { "sxc", NULL };
@@ -104,8 +103,7 @@ static const char *unshiftplayercmd[] = { "playerctld", "unshift", NULL };
 #include <X11/XF86keysym.h>
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_u,      spawn,          {.v = dmenucmd } },
-	{ MODKEY,                       XK_r,      spawn,          {.v = roficmd } },
+	{ MODKEY,                       XK_r,      spawn,          {.v = dmenucmd } },
 	{ 0,                            XK_Print,  spawn,          {.v = prtscrcmd } },
 	{ MODKEY|ShiftMask,             XK_e,      spawn,          {.v = shiftplayercmd } },
 	{ MODKEY|ShiftMask,             XK_w,      spawn,          {.v = unshiftplayercmd } },
