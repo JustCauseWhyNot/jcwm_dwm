@@ -104,6 +104,7 @@ struct Client {
 	int isfixed, isfloating, isurgent, neverfocus, oldstate, isfullscreen, isterminal, noswallow;
 	int ignorecfgreqpos, ignorecfgreqsize;
 	int fakefullscreen;
+	int issteam;
 	int isgame;
 	pid_t pid;
 	Client *next;
@@ -364,6 +365,9 @@ applyrules(Client *c)
 	XGetClassHint(dpy, c->win, &ch);
 	class    = ch.res_class ? ch.res_class : broken;
 	instance = ch.res_name  ? ch.res_name  : broken;
+
+	if (strstr(class, "Steam") || strstr(class, "steam_app_"))
+		c->issteam = 1;
 
 	for (i = 0; i < LENGTH(rules); i++) {
 		r = &rules[i];
@@ -729,6 +733,18 @@ configurerequest(XEvent *e)
 					c->h = ev->height;
 				}
 			}
+
+			if (!c->issteam) {
+				if (ev->value_mask & CWX) {
+					c->oldx = c->x;
+					c->x = m->mx + ev->x;
+				}
+				if (ev->value_mask & CWY) {
+					c->oldy = c->y;
+					c->y = m->my + ev->y;
+				}
+			}
+
 			if ((c->x + c->w) > m->mx + m->mw && c->isfloating)
 				c->x = m->mx + (m->mw / 2 - WIDTH(c) / 2); /* center in x direction */
 			if ((c->y + c->h) > m->my + m->mh && c->isfloating)
@@ -2019,6 +2035,8 @@ setfocus(Client *c)
 	if (c->isgame && c->isfullscreen)
 		unminimize(c);
 
+	if (c->issteam)
+		setclientstate(c, NormalState);
 	sendevent(c, wmatom[WMTakeFocus]);
 }
 
