@@ -1255,8 +1255,6 @@ grabkeys(void)
 }
 
 void
-
-void
 horizontal(Monitor *m)
 {
 	Client *c;
@@ -1272,6 +1270,7 @@ horizontal(Monitor *m)
 			resize(c, m->wx + i * m->mw / n, m->wy, m->mw / n - (2 * c->bw), m->wh - (2 * c->bw), False);
 }
 
+void
 incnmaster(const Arg *arg)
 {
 	selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag] = MAX(selmon->nmaster + arg->i, 0);
